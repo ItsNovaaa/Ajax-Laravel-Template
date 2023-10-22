@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\auditeeController;
 
 
 /*
@@ -18,7 +19,6 @@ use App\Http\Controllers\HomeController;
 Route::get('/', function () {
     return redirect('login');
 });
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -31,3 +31,5 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 Route::middleware(['auth', 'user-access:manager'])->group(function () {
     Route::get('/manager/home', [HomeController::class, 'managerHome'])->name('manager.home');
 });
+
+Route::resource('auditee',auditeeController::class);
