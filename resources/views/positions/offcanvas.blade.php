@@ -7,11 +7,11 @@
     {{-- @csrf --}}
       <div class="offcanvas-body mx-3">
         <div class="mb-4 row ">
-          <span>Nama position</span>
+          <span>Nama Position</span>
           <input class="form-control" type="text" name="nama_position" placeholder="Insert Nama position" aria-label="default input example" id="nama_position">
         </div>
         <div class="mb-4 row ">
-          <span>kode position</span>
+          <span>Kode Position</span>
           <input class="form-control" type="text" name="kode_position"  placeholder="Insert kode positione" aria-label="default input example" id="kode_position">
         </div>
         <div class="mb-4 row ">
