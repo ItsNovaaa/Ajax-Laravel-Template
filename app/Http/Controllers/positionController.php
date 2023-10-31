@@ -3,22 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-// use App\Http\Controllers\Validator;
-use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
-use App\Models\auditee;
-use Illuminate\Support\Str;
-use Exception;
-use Illuminate\Support\Facades\Redirect;
-use IntlChar;
-use PhpParser\Node\Expr\Throw_;
-use Throwable;
+use App\Models\position;
 
-use function PHPUnit\Framework\throwException;
-
-class auditeeController extends Controller
+class positionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,21 +15,22 @@ class auditeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return DataTables::of(auditee::select('*'));
+            return DataTables::of(position::select('*'));
         };
-        return view('admin.index');
+        return view('positions.index');
     }
 
     public function Datatable()
     {
-        $data = auditee::orderBy('nama_auditee','asc');
+        $data = position::orderBy('nama_position','asc');
         return DataTables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){
-            return view('admin.action')->with('data',$data);
+            return view('positions.action')->with('data',$data);
         })
         ->make(true);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -55,13 +45,14 @@ class auditeeController extends Controller
      */
     public function store(Request $request)
     {
-        // return 'dor';
         $post = request()->all();
         $validator = FacadesValidator::make($post, [
-            'nama_auditee' => 'required',
-            'kode_auditee' => 'required',
-            'isaktif_auditee' => 'required',
-        ], [
+            'nama_position' => 'required',
+            'kode_position' => 'required',
+            'deskripsi_position' => 'required',
+            'isaktif_position' => 'required'
+        ],
+        [
             'required' => ':attribute harus diisi'
         ]);
         if ($validator->fails()) {
@@ -71,11 +62,12 @@ class auditeeController extends Controller
             ]);
         } else {
             $data = [
-                'nama_auditee' => $request->nama_auditee,
-                'kode_auditee' => $request->kode_auditee,
-                'isaktif_auditee' => $request->isaktif_auditee
+                'nama_position' => $request->nama_position,
+                'kode_position' => $request->kode_position,
+                'deskripsi_position' => $request->deskripsi_position,
+                'isaktif_position' => $request->isaktif_position
             ];
-            auditee::create($data);
+            position::create($data);
             return response()->json([
                 'success' => true,
                 'data' => $data, 
@@ -89,19 +81,7 @@ class auditeeController extends Controller
      */
     public function show(string $id)
     {
-        try{
-            $modelAudite = new auditee();
-            $findAudite = $modelAudite::find($id);
-            
-            if (!$findAudite) {
-                return response()->json(['error' => 'Data Not Found'], 404);
-            }
-            
-            return response()->json($findAudite);
-
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
-        }
+        //
     }
 
     /**
@@ -109,9 +89,8 @@ class auditeeController extends Controller
      */
     public function edit(string $id)
     {
-        $data = auditee::find($id);
+        $data = position::find($id);
         return response()->json(['result'=>$data]);
-
     }
 
     /**
@@ -119,14 +98,15 @@ class auditeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // if ($data);
-        $data = auditee::find($id);
+        $data = position::find($id);
         $post = request()->all();
         $validator = FacadesValidator::make($post, [
-            'nama_auditee' => 'required',
-            'kode_auditee' => 'required',
-            'isaktif_auditee' => 'required',
-        ], [
+            'nama_position' => 'required',
+            'kode_position' => 'required',
+            'deskripsi_position' => 'required',
+            'isaktif_position' => 'required'
+        ],
+        [
             'required' => ':attribute harus diisi'
         ]);
         if ($validator->fails()) {
@@ -135,17 +115,18 @@ class auditeeController extends Controller
                 'errors' => $validator->errors()
             ]);
         } else {
-            if($data) {
-                $data->nama_auditee = $request->nama_auditee;
-                $data->kode_auditee = $request->kode_auditee;
-                $data->isaktif_auditee = $request->isaktif_auditee;
-                $data->save();
-                return response()->json([
-                    'success' => true,
-                    'data' => $data, 
-                    'message' => 'data berhasil di up'
-                ]);
-            }
+           if($data){
+            $data->nama_position = $request->nama_position;
+            $data->kode_position = $request->kode_position;
+            $data->deskripsi_position = $request->deskripsi_position;
+            $data->isaktif_position = $request->isaktif_position;
+            $data->save(); 
+           }
+            return response()->json([
+                'success' => true,
+                'data' => $data, 
+                'message' => 'data berhasil di simpan'
+            ]);
         };
     }
 
@@ -154,7 +135,7 @@ class auditeeController extends Controller
      */
     public function destroy(string $id)
     {
-        $data = auditee::find($id);
+        $data = position::find($id);
         $data->delete();
         return response()->json([
             'status' => 201,

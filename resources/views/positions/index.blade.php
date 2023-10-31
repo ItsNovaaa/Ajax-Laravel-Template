@@ -1,6 +1,6 @@
 @extends('layouts.main')
-@include('admin.offcanvas')
-@include('admin.offcanvasEdit')
+@include('positions.offcanvas')
+@include('positions.offcanvasEdit')
 @section('content')
 {{-- <h1 class="text-center mb-5">BELAJAR CRUD</h1> --}}
 <div class="card">
@@ -8,15 +8,16 @@
         <table class="table" id="datatable">
             <thead>
                 <div class="d-flex mb-2 justify-content-between">
-                    <span class="mt-1 fs-4">Data Staff</span>
-                    <a class="btn btn-primary mx-lg-4 conva" >
-                      Tambah
+                    <span class="mt-1 fs-4">Data Jenis position</span>
+                    <a class="btn btn-primary  conva" >
+                      Tambah Jenis position
                     </a>                 
                 </div>
                 <tr style="width: 100px">
                     {{-- <th style="width: 100px">No</th> --}}
                     <th style="width: 100px">Nama</th>
-                    <th style="width: 100px">Auditee / Unit</th>
+                    <th style="width: 100px">deskripsi position</th>
+                    <th style="width: 100px">Kode position</th>
                     <th style="width: 100px">Status</th>
                     <th style="width: 100px">Action</th>
                 </tr>
@@ -33,13 +34,15 @@
                 // contentType: "application/json; charset=utf-8",
                 processing: true,
                 serverside: true,
-                ajax: "{{ route('admin.Datatable') }}" ,
+                // scrollY: false,
+                ajax: "{{ route('position.Datatable') }}",
                 columns: [
                 //   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                  {data: 'nama_auditee', name: 'Nama'},
-                  {data: 'kode_auditee', name: 'Auditee'},
+                  {data: 'nama_position', name: 'Nama'},
+                  {data: 'deskripsi_position', name: 'Nama'},
+                  {data: 'kode_position', name: 'position'},
                   {
-                        data: "isaktif_auditee",
+                        data: "isaktif_position",
                         render: function (data) {
                             if (data === '1' ) {
                                 return '<span class="badge" style=" width: 90px; border-radius: 4px; color:#50CDA3; background: #E8FFF3; box-shadow: -4px 4px 5px 0px #E8FFF3;">Active</span>';
@@ -80,12 +83,13 @@
                     if (result.isConfirmed) {
                         // Simpan data
                         $.ajax({
-                            url:'{{ route('admin.store') }}',
+                            url:'{{ route('position.store') }}',
                             type:'POST',
                             data: {
-                                nama_auditee: $('#nama_auditee').val(),
-                                kode_auditee: $('#kode_auditee').val(),
-                                isaktif_auditee: $('input[name="isaktif_auditee"]:checked').val(),
+                                nama_position: $('#nama_position').val(),
+                                kode_position: $('#kode_position').val(),
+                                deskripsi_position: $('#deskripsi_position').val(),
+                                isaktif_position: $('input[name="isaktif_position"]:checked').val(),
                             },
                             success: function(response) {
                                 if (response.errors) {
@@ -102,6 +106,7 @@
                                 } else {
                                     // Refresh datatable
                                     $('#datatable').DataTable().ajax.reload();
+
                                     // Tampilkan pesan sukses
                                     Swal.fire({
                                         title: 'Sukses',
@@ -109,9 +114,10 @@
                                         icon: 'success',
                                         timer:1500
                                     });
-                                    $('#nama_auditee').val(''); // Clear the value
-                                    $('#kode_auditee').val(''); // Clear the value
-                                    $('#isaktif_auditee').val(''); // Clear the value
+                                    $('#nama_position').val(''); // Clear the value
+                                    $('#kode_position').val(''); // Clear the value
+                                    $('#id_position_auditee').val(''); // Clear the value
+                                    $('#isaktif_position').val(''); // Clear the value
                                 }
                             }
                         });
@@ -122,21 +128,24 @@
         });
         $('body').on('click', '.conva-edit', function (e) {
             e.preventDefault();
-            var id_auditee = $(this).data('id');
-            $('#auditee_id').val(id_auditee);
-            $(document).data('id_auditee', id_auditee); // Store 'id_auditee' in document level data
+            var id_position = $(this).data('id');
+            var selectedValue = $('#id_position').val();
+            $('#position_id').val(id_position);
+            $(document).data('id_position', id_position); // Store 'id_position' in document level data
             $.ajax({
-                url: "{{ route('admin.edit') }}/" + id_auditee,
+                url: "{{ route('position.edit') }}/" + id_position,
                 type: 'GET',
                 success: function (response) {
                     $('#offcanvasExampleEdit').offcanvas('show');
-                    $('#nama_auditee_edit').val(response.result.nama_auditee);
-                    $('#kode_auditee_edit').val(response.result.kode_auditee);
-                    $('input[name="isaktif_auditee"][value="1"]').val(response.result.isaktif_auditee);
-                    if (isaktif_auditee === 1) {
-                    $('input[name="isaktif_auditee"][value="1"]').prop('checked', true);
+                    $('#nama_position_edit').val(response.result.nama_position);
+                    $('#kode_position_edit').val(response.result.kode_position);
+                    $('#deskripsi_position_edit').val(response.result.deskripsi_position);
+                    // $('option[name="audite"][value="'+ selectedValue +'"]').val(response.result.id_position_auditee).prop('selected',true);
+                    $('input[name="isaktif_position"][value=""]').val(response.result.isaktif_position);
+                    if (isaktif_position === 1) {
+                    $('input[name="isaktif_position" style=""][value="1"]').prop('checked', true);
                 } else {
-                    $('input[name="isaktif_auditee"][value="0"]').prop('checked', true);
+                    $('input[name="isaktif_position"][value="0"]').prop('checked', true);
                 }
                 }
             });
@@ -144,10 +153,10 @@
         
         $(document).on('click', '.delete-data', function (e) {
     e.preventDefault();
-    var id_auditee = $(this).data('id');
-    // var id_auditee = $('#auditee_id').val();
+    var id_position = $(this).data('id');
+    // var id_position = $('#auditee_id').val();
 
-    console.log(id_auditee);
+    console.log(id_position);
     Swal.fire({
         title: 'Apakah Anda yakin ingin hapus data?',
         text: 'Data yang telah disimpan tidak dapat diubah kembali.',
@@ -163,7 +172,7 @@
         if (result.isConfirmed) {
             $.ajax({
                 type: "DELETE",
-                url: "{{ route('admin.delete') }}/" + id_auditee,
+                url: "{{ route('position.delete') }}/" + id_position,
                 success: function (response) {
                     if (response.errors) {
                         console.log(response.errors);
@@ -194,10 +203,10 @@
 
         $(document).on('click', '.confir-edit', function (e) {
             e.preventDefault();
-            var id_auditee = $('#auditee_id').val();
+            var id_position = $('#position_id').val();
 
-            // var id_auditee = $(document).data('id_auditee'); // Retrieve the stored 'id_auditee'
-            console.log(id_auditee);
+            // var id_position = $(document).data('id_position'); // Retrieve the stored 'id_position'
+            console.log(id_position);
             Swal.fire({
                 title: 'Apakah Anda yakin ingin menyimpan data?',
                 text: 'Data yang telah disimpan tidak dapat diubah kembali.',
@@ -212,14 +221,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var data = {
-                        nama_auditee: $('#nama_auditee_edit').val(),
-                        kode_auditee: $('#kode_auditee_edit').val(),
-                        isaktif_auditee: $('input[name="isaktif_auditee"]:checked').val()
+                        nama_position: $('#nama_position_edit').val(),
+                        kode_position: $('#kode_position_edit').val(),
+                        deskripsi_position: $('#deskripsi_position_edit').val(),
+                        isaktif_position: $('input[name="isaktif_position"]:checked').val()
                     };
 
                     $.ajax({
                         type: "PUT",
-                        url: "{{ route('admin.update') }}/" + id_auditee,
+                        url: "{{ route('position.update') }}/" + id_position,
                         data: data,
                         success: function (response) {
                             if (response.errors) {

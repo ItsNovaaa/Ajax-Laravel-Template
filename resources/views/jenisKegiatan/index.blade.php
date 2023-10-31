@@ -1,6 +1,6 @@
 @extends('layouts.main')
-@include('admin.offcanvas')
-@include('admin.offcanvasEdit')
+@include('jenisKegiatan.offcanvas')
+@include('jenisKegiatan.offcanvasEdit')
 @section('content')
 {{-- <h1 class="text-center mb-5">BELAJAR CRUD</h1> --}}
 <div class="card">
@@ -8,15 +8,15 @@
         <table class="table" id="datatable">
             <thead>
                 <div class="d-flex mb-2 justify-content-between">
-                    <span class="mt-1 fs-4">Data Staff</span>
+                    <span class="mt-1 fs-4">Data Jenis Kegiatan</span>
                     <a class="btn btn-primary mx-lg-4 conva" >
-                      Tambah
+                      Tambah Jenis Kegiatan
                     </a>                 
                 </div>
                 <tr style="width: 100px">
                     {{-- <th style="width: 100px">No</th> --}}
                     <th style="width: 100px">Nama</th>
-                    <th style="width: 100px">Auditee / Unit</th>
+                    <th style="width: 100px">Kode Kegiatan</th>
                     <th style="width: 100px">Status</th>
                     <th style="width: 100px">Action</th>
                 </tr>
@@ -33,13 +33,14 @@
                 // contentType: "application/json; charset=utf-8",
                 processing: true,
                 serverside: true,
-                ajax: "{{ route('admin.Datatable') }}" ,
+                // scrollY: false,
+                ajax: "{{ route('kegiatan.Datatable') }}",
                 columns: [
                 //   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                  {data: 'nama_auditee', name: 'Nama'},
-                  {data: 'kode_auditee', name: 'Auditee'},
+                  {data: 'nama_kegiatan', name: 'Nama'},
+                  {data: 'kode_kegiatan', name: 'kegiatan'},
                   {
-                        data: "isaktif_auditee",
+                        data: "isaktif_kegiatan",
                         render: function (data) {
                             if (data === '1' ) {
                                 return '<span class="badge" style=" width: 90px; border-radius: 4px; color:#50CDA3; background: #E8FFF3; box-shadow: -4px 4px 5px 0px #E8FFF3;">Active</span>';
@@ -80,12 +81,13 @@
                     if (result.isConfirmed) {
                         // Simpan data
                         $.ajax({
-                            url:'{{ route('admin.store') }}',
+                            url:'{{ route('kegiatan.store') }}',
                             type:'POST',
                             data: {
-                                nama_auditee: $('#nama_auditee').val(),
-                                kode_auditee: $('#kode_auditee').val(),
-                                isaktif_auditee: $('input[name="isaktif_auditee"]:checked').val(),
+                                nama_kegiatan: $('#nama_kegiatan').val(),
+                                kode_kegiatan: $('#kode_kegiatan').val(),
+                                id_kegiatan_auditee: $('#id_kegiatan_auditee').val(),
+                                isaktif_kegiatan: $('input[name="isaktif_kegiatan"]:checked').val(),
                             },
                             success: function(response) {
                                 if (response.errors) {
@@ -102,6 +104,7 @@
                                 } else {
                                     // Refresh datatable
                                     $('#datatable').DataTable().ajax.reload();
+
                                     // Tampilkan pesan sukses
                                     Swal.fire({
                                         title: 'Sukses',
@@ -109,9 +112,10 @@
                                         icon: 'success',
                                         timer:1500
                                     });
-                                    $('#nama_auditee').val(''); // Clear the value
-                                    $('#kode_auditee').val(''); // Clear the value
-                                    $('#isaktif_auditee').val(''); // Clear the value
+                                    $('#nama_kegiatan').val(''); // Clear the value
+                                    $('#kode_kegiatan').val(''); // Clear the value
+                                    $('#id_kegiatan_auditee').val(''); // Clear the value
+                                    $('#isaktif_kegiatan').val(''); // Clear the value
                                 }
                             }
                         });
@@ -122,21 +126,24 @@
         });
         $('body').on('click', '.conva-edit', function (e) {
             e.preventDefault();
-            var id_auditee = $(this).data('id');
-            $('#auditee_id').val(id_auditee);
-            $(document).data('id_auditee', id_auditee); // Store 'id_auditee' in document level data
+            var id_kegiatan = $(this).data('id');
+            var selectedValue = $('#id_kegiatan_auditee_edit').val();
+            $('#kegiatan_id').val(id_kegiatan);
+            $(document).data('id_kegiatan', id_kegiatan); // Store 'id_kegiatan' in document level data
             $.ajax({
-                url: "{{ route('admin.edit') }}/" + id_auditee,
+                url: "{{ route('kegiatan.edit') }}/" + id_kegiatan,
                 type: 'GET',
                 success: function (response) {
                     $('#offcanvasExampleEdit').offcanvas('show');
-                    $('#nama_auditee_edit').val(response.result.nama_auditee);
-                    $('#kode_auditee_edit').val(response.result.kode_auditee);
-                    $('input[name="isaktif_auditee"][value="1"]').val(response.result.isaktif_auditee);
-                    if (isaktif_auditee === 1) {
-                    $('input[name="isaktif_auditee"][value="1"]').prop('checked', true);
+                    $('#nama_kegiatan_edit').val(response.result.nama_kegiatan);
+                    $('#kode_kegiatan_edit').val(response.result.kode_kegiatan);
+                    $('#id_kegiatan_auditee_edit').val(response.result.id_kegiatan_auditee);
+                    // $('option[name="audite"][value="'+ selectedValue +'"]').val(response.result.id_kegiatan_auditee).prop('selected',true);
+                    $('input[name="isaktif_kegiatan"][value="1"]').val(response.result.isaktif_kegiatan);
+                    if (isaktif_kegiatan === 1) {
+                    $('input[name="isaktif_kegiatan" style=""][value="1"]').prop('checked', true);
                 } else {
-                    $('input[name="isaktif_auditee"][value="0"]').prop('checked', true);
+                    $('input[name="isaktif_kegiatan"][value="0"]').prop('checked', true);
                 }
                 }
             });
@@ -144,10 +151,10 @@
         
         $(document).on('click', '.delete-data', function (e) {
     e.preventDefault();
-    var id_auditee = $(this).data('id');
-    // var id_auditee = $('#auditee_id').val();
+    var id_kegiatan = $(this).data('id');
+    // var id_kegiatan = $('#auditee_id').val();
 
-    console.log(id_auditee);
+    console.log(id_kegiatan);
     Swal.fire({
         title: 'Apakah Anda yakin ingin hapus data?',
         text: 'Data yang telah disimpan tidak dapat diubah kembali.',
@@ -163,7 +170,7 @@
         if (result.isConfirmed) {
             $.ajax({
                 type: "DELETE",
-                url: "{{ route('admin.delete') }}/" + id_auditee,
+                url: "{{ route('kegiatan.delete') }}/" + id_kegiatan,
                 success: function (response) {
                     if (response.errors) {
                         console.log(response.errors);
@@ -194,10 +201,10 @@
 
         $(document).on('click', '.confir-edit', function (e) {
             e.preventDefault();
-            var id_auditee = $('#auditee_id').val();
+            var id_kegiatan = $('#kegiatan_id').val();
 
-            // var id_auditee = $(document).data('id_auditee'); // Retrieve the stored 'id_auditee'
-            console.log(id_auditee);
+            // var id_kegiatan = $(document).data('id_kegiatan'); // Retrieve the stored 'id_kegiatan'
+            console.log(id_kegiatan);
             Swal.fire({
                 title: 'Apakah Anda yakin ingin menyimpan data?',
                 text: 'Data yang telah disimpan tidak dapat diubah kembali.',
@@ -212,14 +219,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var data = {
-                        nama_auditee: $('#nama_auditee_edit').val(),
-                        kode_auditee: $('#kode_auditee_edit').val(),
-                        isaktif_auditee: $('input[name="isaktif_auditee"]:checked').val()
+                        nama_kegiatan: $('#nama_kegiatan_edit').val(),
+                        kode_kegiatan: $('#kode_kegiatan_edit').val(),
+                        id_kegiatan_auditee: $('#id_kegiatan_auditee').val(),
+                        isaktif_kegiatan: $('input[name="isaktif_kegiatan"]:checked').val()
                     };
 
                     $.ajax({
                         type: "PUT",
-                        url: "{{ route('admin.update') }}/" + id_auditee,
+                        url: "{{ route('kegiatan.update') }}/" + id_kegiatan,
                         data: data,
                         success: function (response) {
                             if (response.errors) {

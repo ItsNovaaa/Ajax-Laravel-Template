@@ -9,11 +9,10 @@ class auditee extends Model
 {
     use HasFactory;
 
-    protected $table = [
-        'auditee'
-    ];
-
+    protected $table = 'auditee';
+    protected $primaryKey = 'id_auditee';
     protected $fillable = [
+        'id_auditee',
         'nama_auditee',
         'kode_auditee',
         'isaktif_auditee'
