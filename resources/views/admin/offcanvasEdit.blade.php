@@ -10,8 +10,8 @@
             <input class="form-control" type="text" name="nama_auditee" placeholder="Insert Nama Auditee" aria-label="default input example" id="nama_auditee_edit">
           </div>
           <div class="mb-4 row ">
-            <span>kode Auditee</span>
-            <input class="form-control" type="text" name="kode_auditee"  placeholder="Insert kode Auditeee" aria-label="default input example" id="kode_auditee_edit">
+            <span>Kode Auditee</span>
+            <input class="form-control" type="text" name="kode_auditee"  placeholder="Insert Kode Auditee" aria-label="default input example" id="kode_auditee_edit">
           </div>
           <div class="mb-4 row ">
             <span class="mb-3">Auditee Status</span>
