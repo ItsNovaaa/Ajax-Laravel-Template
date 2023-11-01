@@ -1,6 +1,6 @@
 @extends('layouts.main')
-@include('positions.offcanvas')
-@include('positions.offcanvasEdit')
+@include('staff.offcanvas')
+@include('staff.offcanvasEdit')
 @section('content')
 {{-- <h1 class="text-center mb-5">BELAJAR CRUD</h1> --}}
 <div class="card">
@@ -8,16 +8,16 @@
         <table class="table" id="datatable">
             <thead>
                 <div class="d-flex mb-2 justify-content-between">
-                    <span class="mt-1 fs-4">Data Jenis position</span>
+                    <span class="mt-1 fs-4">Data Jenis staff</span>
                     <a class="btn btn-primary  conva" >
-                      Tambah Jenis position
+                      Tambah Jenis staff
                     </a>                 
                 </div>
                 <tr style="width: 100px">
                     {{-- <th style="width: 100px">No</th> --}}
                     <th style="width: 100px">Nama</th>
-                    <th style="width: 100px">deskripsi position</th>
-                    <th style="width: 100px">Kode position</th>
+                    <th style="width: 100px">deskripsi staff</th>
+                    <th style="width: 100px">Level staff</th>
                     <th style="width: 100px">Status</th>
                     <th style="width: 100px">Action</th>
                 </tr>
@@ -35,14 +35,14 @@
                 processing: true,
                 serverside: true,
                 // scrollY: false,
-                ajax: "{{ route('position.Datatable') }}",
+                ajax: "{{ route('staff.Datatable') }}",
                 columns: [
                 //   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                  {data: 'nama_position', name: 'Nama'},
-                  {data: 'deskripsi_position', name: 'Nama'},
-                  {data: 'kode_position', name: 'position'},
+                  {data: 'nama_staff', name: 'Nama'},
+                  {data: 'id_staff_auditee', name: 'id_auditee'},
+                  {data: 'nomor_staff', name: 'nomor'},
                   {
-                        data: "isaktif_position",
+                        data: "isaktif_staff",
                         render: function (data) {
                             if (data === '1' ) {
                                 return '<span class="badge" style=" width: 90px; border-radius: 4px; color:#50CDA3; background: #E8FFF3; box-shadow: -4px 4px 5px 0px #E8FFF3;">Active</span>';
@@ -83,13 +83,15 @@
                     if (result.isConfirmed) {
                         // Simpan data
                         $.ajax({
-                            url:'{{ route('position.store') }}',
+                            url:'{{ route('staff.store') }}',
                             type:'POST',
                             data: {
-                                nama_position: $('#nama_position').val(),
-                                kode_position: $('#kode_position').val(),
-                                deskripsi_position: $('#deskripsi_position').val(),
-                                isaktif_position: $('input[name="isaktif_position"]:checked').val(),
+                                nama_staff: $('#nama_staff').val(),
+                                username_staff: $('#username_staff').val(),
+                                nomor_staff: $('#nomor_staff').val(),
+                                id_staff_auditee: $('#id_staff_auditee').val(),
+                                id_staff_position: $('#id_staff_position').val(),
+                                isaktif_staff: $('input[name="isaktif_staff"]:checked').val(),
                             },
                             success: function(response) {
                                 if (response.errors) {
@@ -114,10 +116,10 @@
                                         icon: 'success',
                                         timer:1500
                                     });
-                                    $('#nama_position').val(''); // Clear the value
-                                    $('#kode_position').val(''); // Clear the value
-                                    $('#id_position_auditee').val(''); // Clear the value
-                                    $('#isaktif_position').val(''); // Clear the value
+                                    $('#nama_staff').val(''); // Clear the value
+                                    $('#kode_staff').val(''); // Clear the value
+                                    $('#level_staff').val(''); // Clear the value
+                                    $('#isaktif_staff').val(''); // Clear the value
                                 }
                             }
                         });
@@ -128,24 +130,25 @@
         });
         $('body').on('click', '.conva-edit', function (e) {
             e.preventDefault();
-            var id_position = $(this).data('id');
-            var selectedValue = $('#id_position').val();
-            $('#position_id').val(id_position);
-            $(document).data('id_position', id_position); // Store 'id_position' in document level data
+            var id_staff = $(this).data('id');
+            var selectedValue = $('#id_staff').val();
+            $('#staff_id').val(id_staff);
+            $(document).data('id_staff', id_staff); // Store 'id_staff' in document level data
             $.ajax({
-                url: "{{ route('position.edit') }}/" + id_position,
+                url: "{{ route('staff.edit') }}/" + id_staff,
                 type: 'GET',
                 success: function (response) {
                     $('#offcanvasExampleEdit').offcanvas('show');
-                    $('#nama_position_edit').val(response.result.nama_position);
-                    $('#kode_position_edit').val(response.result.kode_position);
-                    $('#deskripsi_position_edit').val(response.result.deskripsi_position);
-                    // $('option[name="audite"][value="'+ selectedValue +'"]').val(response.result.id_position_auditee).prop('selected',true);
-                    $('input[name="isaktif_position"][value=""]').val(response.result.isaktif_position);
-                    if (isaktif_position === 1) {
-                    $('input[name="isaktif_position"][value="1"]').prop('checked', true);
+                    $('#nama_staff_edit').val(response.result.nama_staff);
+                    $('#username_staff_edit').val(response.result.username_staff);
+                    $('#nomor_staff_edit').val(response.result.nomor_staff);
+                    $('#id_staff_auditee_edit').val(response.result.id_staff_auditee);
+                    $('#id_staff_position_edit').val(response.result.id_staff_position);
+                    $('input[name="isaktif_staff"][value=""]').val(response.result.isaktif_staff);
+                    if (isaktif_staff === 1) {
+                    $('input[name="isaktif_staff"][value="1"]').prop('checked', true);
                 } else {
-                    $('input[name="isaktif_position"][value="0"]').prop('checked', true);
+                    $('input[name="isaktif_staff"][value="0"]').prop('checked', true);
                 }
                 }
             });
@@ -153,10 +156,10 @@
         
         $(document).on('click', '.delete-data', function (e) {
     e.preventDefault();
-    var id_position = $(this).data('id');
-    // var id_position = $('#auditee_id').val();
+    var id_staff = $(this).data('id');
+    // var id_staff = $('#auditee_id').val();
 
-    console.log(id_position);
+    console.log(id_staff);
     Swal.fire({
         title: 'Apakah Anda yakin ingin hapus data?',
         text: 'Data yang telah disimpan tidak dapat diubah kembali.',
@@ -172,7 +175,7 @@
         if (result.isConfirmed) {
             $.ajax({
                 type: "DELETE",
-                url: "{{ route('position.delete') }}/" + id_position,
+                url: "{{ route('staff.delete') }}/" + id_staff,
                 success: function (response) {
                     if (response.errors) {
                         console.log(response.errors);
@@ -203,10 +206,10 @@
 
         $(document).on('click', '.confir-edit', function (e) {
             e.preventDefault();
-            var id_position = $('#position_id').val();
+            var id_staff = $('#staff_id').val();
 
-            // var id_position = $(document).data('id_position'); // Retrieve the stored 'id_position'
-            console.log(id_position);
+            // var id_staff = $(document).data('id_staff'); // Retrieve the stored 'id_staff'
+            console.log(id_staff);
             Swal.fire({
                 title: 'Apakah Anda yakin ingin menyimpan data?',
                 text: 'Data yang telah disimpan tidak dapat diubah kembali.',
@@ -221,15 +224,17 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var data = {
-                        nama_position: $('#nama_position_edit').val(),
-                        kode_position: $('#kode_position_edit').val(),
-                        deskripsi_position: $('#deskripsi_position_edit').val(),
-                        isaktif_position: $('input[name="isaktif_position"]:checked').val()
+                        nama_staff: $('#nama_staff_edit').val(),
+                        username_staff: $('#username_staff_edit').val(),
+                        nomor_staff: $('#nomor_staff_edit').val(),
+                        id_staff_auditee: $('#id_staff_auditee_edit').val(),
+                        id_staff_position: $('#id_staff_position_edit').val(),
+                        isaktif_staff: $('input[name="isaktif_staff"]:checked').val()
                     };
 
                     $.ajax({
                         type: "PUT",
-                        url: "{{ route('position.update') }}/" + id_position,
+                        url: "{{ route('staff.update') }}/" + id_staff,
                         data: data,
                         success: function (response) {
                             if (response.errors) {

@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\auditeeController;
 use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\positionController;
+use App\Http\Controllers\RiskKriteriaController;
+use App\Http\Controllers\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +64,23 @@ Route::prefix('position')->group(function() {
     Route::delete('destroy/{id?}', [positionController::class, 'destroy'])->name('position.delete');
 });
 
+Route::prefix('risk')->group(function() {
+    Route::get('/', [RiskKriteriaController::class, 'index'])->name('risk.index');
+    Route::get('dataTables', [RiskKriteriaController::class, 'Datatable'])->name('risk.Datatable');
+    Route::post('store', [RiskKriteriaController::class, 'store'])->name('risk.store');
+    Route::get('edit/{id?}', [RiskKriteriaController::class, 'edit'])->name('risk.edit');
+    Route::put('update/{id?}', [RiskKriteriaController::class, 'update'])->name('risk.update');
+    Route::delete('destroy/{id?}', [RiskKriteriaController::class, 'destroy'])->name('risk.delete');
+});
 
+Route::prefix('staff')->group(function() {
+    Route::get('/', [StaffController::class, 'index'])->name('staff.index');
+    Route::get('dataTables', [StaffController::class, 'Datatable'])->name('staff.Datatable');
+    Route::post('store', [StaffController::class, 'store'])->name('staff.store');
+    Route::get('edit/{id?}', [StaffController::class, 'edit'])->name('staff.edit');
+    Route::put('update/{id?}', [StaffController::class, 'update'])->name('staff.update');
+    Route::delete('destroy/{id?}', [StaffController::class, 'destroy'])->name('staff.delete');
+});
 // Route::prefix('admin')->group(function() {
 //     Route::get('/', [StaffController::class, 'index'])->name('admin');
 // });

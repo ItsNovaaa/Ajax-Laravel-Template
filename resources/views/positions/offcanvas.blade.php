@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="mb-4 row justify-content-center">
-          <button type="button" class="btn btn-primary confir w-full" style="border-radius: 13px;background: linear-gradient(90deg, #217AFF 0%, #7F2DE7 100%);">Tambah data</button>
+          <button type="button" class="btn btn-primary confir w-full" style="border-radius: 13px;background: linear-gradient(90deg, #217AFF 0%, #7F2DE7 100%);">Save Data</button>
         </div>
       </div>
   </div>

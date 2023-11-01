@@ -32,7 +32,8 @@
             <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('admin.audite') }}">Auditee</a></li>
             <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('kegiatan.index') }}">Jenis Kegiatan</a></li>
             <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('position.index') }}">Position</a></li>
-            <li><a class="text-decoration-none mx-3 text-dark" href="#">Menu Baru</a></li>
+            <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('risk.index') }}">Risk Kriteria</a></li>
+            <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('staff.index') }}">Staff</a></li>
           </ul>
         </li>
         <li>
