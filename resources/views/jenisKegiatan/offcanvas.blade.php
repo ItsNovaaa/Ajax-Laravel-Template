@@ -1,7 +1,7 @@
 @include('jenisKegiatan.AddModalconfirm')
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExampleAdd" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Add kegiatan</h5>
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Add Kegiatan</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
     {{-- <form action="{{ route('admin.store') }}" method="POST"> --}}
@@ -9,15 +9,15 @@
       <div class="offcanvas-body mx-3">
         <div class="mb-4 row ">
           <span>Nama Kegiatan</span>
-          <input class="form-control" type="text" name="nama_kegiatan" placeholder="Insert Nama kegiatan" aria-label="default input example" id="nama_kegiatan">
+          <input class="form-control" type="text" name="nama_kegiatan" placeholder="Insert Nama Kegiatan" aria-label="default input example" id="nama_kegiatan">
         </div>
         <div class="mb-4 row ">
-          <span>kode kegiatan</span>
-          <input class="form-control" type="text" name="kode_kegiatan"  placeholder="Insert kode kegiatane" aria-label="default input example" id="kode_kegiatan">
+          <span>Kode Kegiatan</span>
+          <input class="form-control" type="text" name="kode_kegiatan"  placeholder="Insert Kode Kegiatan" aria-label="default input example" id="kode_kegiatan">
         </div>
         <div class="mb-4 row  ">
             <span class="text-align-start">Insert Audite / Unit</span>      
-            <select id="id_kegiatan_auditee" class="form-select" placeholder="Insert kode kegiatane" aria-label="Default select example">
+            <select id="id_kegiatan_auditee" class="form-select" placeholder="Insert Kode Kegiatan" aria-label="Default select example">
               {{-- id di select --}}
             {{-- <option>Insert Auditee / Unit</option> --}}
             <option value="" disabled selected>Insert Audite / Unit</option>
@@ -28,7 +28,7 @@
             </select>      
         </div>
         <div class="mb-4 row ">
-          <span class="mb-3">kegiatan Status</span>
+          <span class="mb-3">Kegiatan Status</span>
           <div class="d-flex justify-content-between">
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="isaktif_kegiatan" id="isaktif_kegiatan" value="1">
