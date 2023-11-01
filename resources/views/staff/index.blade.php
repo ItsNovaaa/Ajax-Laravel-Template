@@ -8,16 +8,16 @@
         <table class="table" id="datatable">
             <thead>
                 <div class="d-flex mb-2 justify-content-between">
-                    <span class="mt-1 fs-4">Data Jenis staff</span>
+                    <span class="mt-1 fs-4">Data Jenis Staff</span>
                     <a class="btn btn-primary  conva" >
-                      Tambah Jenis staff
+                      Tambah Jenis Staff
                     </a>                 
                 </div>
                 <tr style="width: 100px">
                     {{-- <th style="width: 100px">No</th> --}}
                     <th style="width: 100px">Nama</th>
-                    <th style="width: 100px">deskripsi staff</th>
-                    <th style="width: 100px">Level staff</th>
+                    <th style="width: 100px">Deskripsi Staff</th>
+                    <th style="width: 100px">Level Staff</th>
                     <th style="width: 100px">Status</th>
                     <th style="width: 100px">Action</th>
                 </tr>
