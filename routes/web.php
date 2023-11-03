@@ -7,6 +7,9 @@ use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\positionController;
 use App\Http\Controllers\RiskKriteriaController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\RiskLevelController;
+use App\Http\Controllers\penaltyController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +83,26 @@ Route::prefix('staff')->group(function() {
     Route::get('edit/{id?}', [StaffController::class, 'edit'])->name('staff.edit');
     Route::put('update/{id?}', [StaffController::class, 'update'])->name('staff.update');
     Route::delete('destroy/{id?}', [StaffController::class, 'destroy'])->name('staff.delete');
+});
+
+Route::prefix('risklevel')->group(function() {
+    Route::get('/', [RiskLevelController::class, 'index'])->name('riskLevel.index');
+    Route::get('dataTables', [RiskLevelController::class, 'Datatable'])->name('riskLevel.Datatable');
+    Route::get('create', [RiskLevelController::class, 'create'])->name('riskLevel.create');
+    Route::post('store', [RiskLevelController::class, 'store'])->name('riskLevel.store');
+    Route::get('edit/{id?}', [RiskLevelController::class, 'edit'])->name('riskLevel.edit');
+    Route::put('update/{id?}', [RiskLevelController::class, 'update'])->name('riskLevel.update');
+    Route::delete('destroy/{id?}', [RiskLevelController::class, 'destroy'])->name('riskLevel.delete');
+});
+
+Route::prefix('penalty')->group(function() {
+    Route::get('/', [penaltyController::class, 'index'])->name('penalty.index');
+    Route::get('dataTables', [penaltyController::class, 'Datatable'])->name('penalty.Datatable');
+    Route::get('create', [penaltyController::class, 'create'])->name('penalty.create');
+    Route::post('store', [penaltyController::class, 'store'])->name('penalty.store');
+    Route::get('edit/{id?}', [penaltyController::class, 'edit'])->name('penalty.edit');
+    Route::put('update/{id?}', [penaltyController::class, 'update'])->name('penalty.update');
+    Route::delete('destroy/{id?}', [penaltyController::class, 'destroy'])->name('penalty.delete');
 });
 // Route::prefix('admin')->group(function() {
 //     Route::get('/', [StaffController::class, 'index'])->name('admin');

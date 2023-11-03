@@ -43,7 +43,7 @@
           </select>      
         </div>
         <div class="mb-4 row ">
-          <span class="mb-3">staff Status</span>
+          <span class="mb-3">Staff Status</span>
           <div class="d-flex justify-content-between">
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="isaktif_staff" id="isaktif_staff" value="1">

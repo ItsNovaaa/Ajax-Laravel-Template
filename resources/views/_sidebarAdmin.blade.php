@@ -36,8 +36,8 @@
             <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('staff.index') }}">Staff</a></li>
           </ul>
         </li>
-        <li>
-          <a href="" class="nav-link link-dark">
+        <li class="dropdown">
+          <a href="#" class="nav-link link-dark dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 28 28" fill="none"class="mb-1 mx-1>
               <g clip-path="url(#clip0_250_1026)">
               <path d="M7.46668 10.7334H7.70001C8.59834 10.7334 9.33334 11.4684 9.33334 12.3667V20.5334C9.33334 21.4317 8.59834 22.1667 7.70001 22.1667H7.46668C6.56834 22.1667 5.83334 21.4317 5.83334 20.5334V12.3667C5.83334 11.4684 6.56834 10.7334 7.46668 10.7334ZM14 5.83337C14.8983 5.83337 15.6333 6.56837 15.6333 7.46671V20.5334C15.6333 21.4317 14.8983 22.1667 14 22.1667C13.1017 22.1667 12.3667 21.4317 12.3667 20.5334V7.46671C12.3667 6.56837 13.1017 5.83337 14 5.83337ZM20.5333 15.1667C21.4317 15.1667 22.1667 15.9017 22.1667 16.8V20.5334C22.1667 21.4317 21.4317 22.1667 20.5333 22.1667C19.635 22.1667 18.9 21.4317 18.9 20.5334V16.8C18.9 15.9017 19.635 15.1667 20.5333 15.1667Z" fill="#A3AED0"/>
@@ -50,6 +50,13 @@
               </svg>
             Implementations
           </a>
+          <ul class="dropdown-menu text-decoration-none" aria-labelledby="navbarDropdown">
+            <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('riskLevel.index') }}">Risk Level</a></li>
+            <li><a class="text-decoration-none mx-3 text-dark" href="{{ route('penalty.index') }}">Penalty</a></li>
+            {{-- <li><a class="text-decoration-none mx-3 text-dark" href="">Position</a></li>
+            <li><a class="text-decoration-none mx-3 text-dark" href="">Risk Kriteria</a></li>
+            <li><a class="text-decoration-none mx-3 text-dark" href="">Staff</a></li> --}}
+          </ul>
         </li>
         <li>
           <a href="#" class="nav-link link-dark">

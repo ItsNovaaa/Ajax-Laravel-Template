@@ -16,7 +16,7 @@
                 <tr style="width: 100px">
                     {{-- <th style="width: 100px">No</th> --}}
                     <th style="width: 100px">Nama</th>
-                    <th style="width: 100px">Deskripsi Risk</th>
+                    {{-- <th style="width: 100px">Deskripsi Risk</th> --}}
                     <th style="width: 100px">Level Risk</th>
                     <th style="width: 100px">Status</th>
                     <th style="width: 100px">Action</th>
@@ -39,7 +39,7 @@
                 columns: [
                 //   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                   {data: 'nama_risk', name: 'Nama'},
-                  {data: 'kode_risk', name: 'Nama'},
+                //   {data: 'kode_risk', name: 'Nama'},
                   {
                         data: "level_risk",
                         render: function (data) {
